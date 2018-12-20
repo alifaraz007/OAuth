@@ -1,11 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passportSetup = require('./config/passport-setup')
+const mongoose = require('mongoose')
+const keys = require('./config/keys')
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//connect to mongodb
+mongoose.connect(keys.mongodb.dbURI, { useNewUrlParser: true }, ()=>{
+    console.log('connected to database')
+})
 
 //initialize route
 app.use('/user', require('./routes/user_route'));
